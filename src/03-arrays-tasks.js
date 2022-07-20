@@ -342,8 +342,11 @@ function getPositivesCount(arr) {
  *   [ 'nine','eight','nine','eight'] => [ 'eight','eight','nine','nine']
  *   [ 'one','one','one','zero' ]     => [ 'zero','one','one','one' ]
  */
-function sortDigitNamesByNumericOrder(/* arr */) {
-  throw new Error('Not implemented');
+function sortDigitNamesByNumericOrder(arr) {
+  const mapNumber = new Map([['zero', 0], ['one', 1], ['two', 2], ['three', 3], ['four', 4], ['five', 5], ['six', 6], ['seven', 7], ['eight', 8], ['nine', 9]]);
+
+  arr.sort((a, b) => mapNumber.get(a) - mapNumber.get(b));
+  return arr;
 }
 
 /**
@@ -358,8 +361,8 @@ function sortDigitNamesByNumericOrder(/* arr */) {
  *   [ -1, 1, -1, 1 ]      => 0
  *   [ 1, 10, 100, 1000 ]  => 1111
  */
-function getItemsSum(/* arr */) {
-  throw new Error('Not implemented');
+function getItemsSum(arr) {
+  return arr.reduce((sum, item) => sum + item, 0);
 }
 
 /**
@@ -374,8 +377,9 @@ function getItemsSum(/* arr */) {
  *  [ -1, 'false', null, 0 ] => 2
  *  [ null, undefined, NaN, false, 0, '' ]  => 6
  */
-function getFalsyValuesCount(/* arr */) {
-  throw new Error('Not implemented');
+function getFalsyValuesCount(arr) {
+  return (arr.filter((item) => item === '' || item === 0 || item === false
+  || typeof item === 'undefined' || item === null || ((Number.isNaN(item))))).length;
 }
 
 /**
@@ -392,8 +396,14 @@ function getFalsyValuesCount(/* arr */) {
  *    [ null, undefined, null ], null => 2
  *    [ true, 0, 1, 'true' ], true => 1
  */
-function findAllOccurrences(/* arr, item */) {
-  throw new Error('Not implemented');
+function findAllOccurrences(arr, item) {
+  let count = 0;
+  arr.map((data) => {
+    // eslint-disable-next-line no-unused-expressions
+    (data === item) ? (count += 1) : (count += 0);
+  });
+
+  return count;
 }
 
 /**
@@ -407,8 +417,9 @@ function findAllOccurrences(/* arr, item */) {
  *    [1, 2, 3, 4, 5]                   => '1,2,3,4,5'
  *    ['rock', 'paper', 'scissors']     => 'rock,paper,scissors'
  */
-function toStringList(/* arr */) {
-  throw new Error('Not implemented');
+function toStringList(arr) {
+  const a = arr.reduce((sum, item) => `${sum}${item},`, 0);
+  return a.slice(1, a.length - 1);
 }
 
 
