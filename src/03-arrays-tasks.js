@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-param-reassign */
 
 /* eslint no-plusplus: ["error", { "allowForLoopAfterthoughts": true }] */
@@ -204,8 +205,12 @@ function getTail(arr, n) {
  *    +'20,21,22,23,24\n'
  *    +'30,31,32,33,34'
  */
-function toCsvText(/* arr */) {
-  throw new Error('Not implemented');
+function toCsvText(arr) {
+  const csv = arr.map((item) => {
+    const row = item;
+    return row.join(',');
+  }).join('\n');
+  return csv;
 }
 
 /**
@@ -238,9 +243,11 @@ function toArrayOfSquares(arr) {
  *   [ 0, 0, 0, 0, 0]         => [ 0, 0, 0, 0, 0]
  *   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] => [ 1, 3, 6, 10, 15, 21, 28, 36, 45, 55 ]
  */
-function getMovingSum(/* arr */) {
-  throw new Error('Not implemented');
+function getMovingSum(arr) {
+  const result = arr.reduce((a, x, i) => [...a, x + (a[i - 1] || 0)], []);
+  return result;
 }
+
 
 /**
  * Returns every second item from the specified array:
@@ -272,8 +279,14 @@ function getSecondItems(arr) {
  *  [ 'a', 'b', 'c', null ] => [ 'a', 'b','b', 'c','c','c',  null,null,null,null ]
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
-function propagateItemsByPositionIndex(/* arr */) {
-  throw new Error('Not implemented');
+function propagateItemsByPositionIndex(arr) {
+  const transform = arr.reduce((a, item, i) => (
+    a.concat(Array.from(
+      { length: i + 1 },
+      () => item,
+    ))
+  ), []);
+  return transform;
 }
 
 
@@ -290,8 +303,12 @@ function propagateItemsByPositionIndex(/* arr */) {
  *   [ 1,2,3,4,5,6,7,8,9,10 ] => [ 10, 9, 8 ]
  *   [ 10, 10, 10, 10 ] => [ 10, 10, 10 ]
  */
-function get3TopItems(/* arr */) {
-  throw new Error('Not implemented');
+function get3TopItems(arr) {
+  arr.sort((a, b) => b - a);
+  if (arr.length < 3) {
+    return arr;
+  }
+  return arr.slice(0, 3);
 }
 
 
@@ -308,8 +325,8 @@ function get3TopItems(/* arr */) {
  *   [ null, 1, 'elephant' ] => 1
  *   [ 1, '2' ] => 1
  */
-function getPositivesCount(/* arr */) {
-  throw new Error('Not implemented');
+function getPositivesCount(arr) {
+  return (arr.filter((item) => typeof item === 'number' && item > 0)).length;
 }
 
 /**
