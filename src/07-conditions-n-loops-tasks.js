@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-nested-ternary */
 /* *************************************************************************************************
  *                                                                                                *
  * Please read the following tutorial before implementing tasks:                                   *
@@ -27,8 +29,8 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(/* num */) {
-  throw new Error('Not implemented');
+function getFizzBuzz(num) {
+  return num % 3 === 0 ? num % 5 === 0 ? 'FizzBuzz' : 'Fizz' : num % 5 === 0 ? 'Buzz' : num;
 }
 
 
@@ -43,8 +45,13 @@ function getFizzBuzz(/* num */) {
  *   5  => 120
  *   10 => 3628800
  */
-function getFactorial(/* n */) {
-  throw new Error('Not implemented');
+function getFactorial(n) {
+  let factorial = 1;
+  while (n > 1) {
+    factorial *= n;
+    n -= 1;
+  }
+  return factorial;
 }
 
 
@@ -60,8 +67,13 @@ function getFactorial(/* n */) {
  *   5,10  =>  45 ( = 5+6+7+8+9+10 )
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
-function getSumBetweenNumbers(/* n1, n2 */) {
-  throw new Error('Not implemented');
+function getSumBetweenNumbers(n1, n2) {
+  let sum = n2;
+  while (n1 !== n2) {
+    sum += n1;
+    n1 += 1;
+  }
+  return sum;
 }
 
 
@@ -80,8 +92,9 @@ function getSumBetweenNumbers(/* n1, n2 */) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isTriangle(a, b, c) {
+  if ((a + b > c) || (a + c > b) || (b + c > a)) return true;
+  return false;
 }
 
 
@@ -117,8 +130,13 @@ function isTriangle(/* a, b, c */) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  rect1.rightBot = rect1.top + rect1.height;
+  rect2.rightBot = rect2.top + rect2.height;
+  rect1.len = rect1.left + rect1.width;
+  rect2.len = rect2.left + rect2.width;
+  return rect1.left < rect2.len
+  && rect1.len > rect2.left && rect1.top < rect2.rightBot && rect1.rightBot > rect2.top;
 }
 
 
