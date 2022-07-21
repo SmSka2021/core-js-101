@@ -264,6 +264,29 @@ function reverseInteger(num) {
 
 
 /**
+ * Returns the digital root of integer:
+ *   step1 : find sum of all digits
+ *   step2 : if sum > 9 then goto step1 otherwise return the sum
+ *
+ * @param {number} n
+ * @return {number}
+ *
+ * @example:
+ *   12345 ( 1+2+3+4+5 = 15, 1+5 = 6) => 6
+ *   23456 ( 2+3+4+5+6 = 20, 2+0 = 2) => 2
+ *   10000 ( 1+0+0+0+0 = 1 ) => 1
+ *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
+ */
+function getDigitalRoot(num) {
+  const res1 = `${num}`.split('').reduce((sum, cur) => sum + +cur, 0);
+  if (res1 > 9) {
+    return getDigitalRoot(res1);
+  }
+  return res1;
+}
+
+
+/**
  * Validates the CCN (credit card number) and return true if CCN is valid
  * and false otherwise.
  *
@@ -283,26 +306,17 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
-}
-
-/**
- * Returns the digital root of integer:
- *   step1 : find sum of all digits
- *   step2 : if sum > 9 then goto step1 otherwise return the sum
- *
- * @param {number} n
- * @return {number}
- *
- * @example:
- *   12345 ( 1+2+3+4+5 = 15, 1+5 = 6) => 6
- *   23456 ( 2+3+4+5+6 = 20, 2+0 = 2) => 2
- *   10000 ( 1+0+0+0+0 = 1 ) => 1
- *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
- */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  let sum = 0;
+  const ccnString = `${ccn}`.split('').reverse().join('');
+  for (let i = 0; i < ccnString.length; i++) {
+    if (i % 2 !== 0) {
+      sum += (+ccnString[i]) * 2 > 9 ? getDigitalRoot((+ccnString[i]) * 2) : (+ccnString[i]) * 2;
+      continue;
+    }
+    sum += (+ccnString[i]);
+  }
+  return sum % 10 === 0;
 }
 
 
@@ -327,8 +341,23 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  if (str === '') return true;
+  const dataBracket = ['()', '{}', '[]', '<>', '[]'];
+  let flag = true;
+  while (flag) {
+    flag = false;
+    for (let i = 0; i < str.length; i++) {
+      const findItem = str[i] + str[i + 1];
+      if (dataBracket.includes(findItem)) {
+        str = str.replace(findItem, '');
+        i++;
+        flag = true;
+      }
+    }
+  }
+  if (str.length !== 0) return false;
+  return true;
 }
 
 
