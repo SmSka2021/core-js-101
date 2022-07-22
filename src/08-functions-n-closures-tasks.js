@@ -132,63 +132,6 @@ function retry(fn, retries) {
   }
   return fn;
 }
-/* function retry(/* fn, attempts ) {
-  throw new Error('Not implemented');
-}
- function retry(fn, attempts) {
-  let retries = 0;
-  while (1 > 0) {
-    try {
-      fn();
-    } catch (er) {
-      // eslint-disable-next-line no-plusplus
-      retries++;
-      if (retries >= attempts) {
-        throw new Error('gg');
-      }
-    }
-  }
-}
- function retry(fn, retries) {
-  if (!retries) {
-    throw new Error();
-  }
-  return () => {
-    if (retries) {
-      try {
-        fn();
-      } catch (err) {
-        return retry(fn, (retries - 1));
-      }
-    }
-    throw new Error();
-  };
-}
-/*
-function retry(fn, attempts) {
-  let count = attempts;
-  for (let i = 1; i <= count; i + 0) {
-    try {
-      return fn;
-    } catch (err) {
-      count -= 1;
-    }
-  }
-  throw new Error('ggg');
-}
-/*
-function retry(fn, attempts) {
-  let count = attempts + 1;
-  do {
-    try {
-      return fn;
-    } catch (err) {
-      count -= 1;
-    }
-  } while (count);
-  throw new Error('ggg');
-}
-
 
 /**
  * Returns the logging wrapper for the specified method,
@@ -231,10 +174,9 @@ function logger(/* func, logFunc */) {
  *   partialUsingArguments(fn, 'a','b','c')('d') => 'abcd'
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
-function partialUsingArguments(/* fn, ...args1 */) {
-  throw new Error('Not implemented');
+function partialUsingArguments(fn, ...args1) {
+  return (...arg2) => fn(...args1, ...arg2);
 }
-
 
 /**
  * Returns the id generator function that returns next integer starting
