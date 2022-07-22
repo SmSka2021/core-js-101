@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* *********************************************************************************************
  *                                                                                             *
  * Please read the following tutorial before implementing tasks:                                *
@@ -120,10 +121,21 @@ const memoize = (fn) => {
  * }, 2);
  * retryer() => 2
  */
-function retry(/* fn, attempts */) {
+function retry(fn, retries) {
+  if (!retries) {
+    throw new Error('5');
+  }
+  try {
+    fn();
+  } catch (err) {
+    return retry(fn, retries - 1);
+  }
+  return fn;
+}
+/* function retry(/* fn, attempts ) {
   throw new Error('Not implemented');
 }
-/* function retry(fn, attempts) {
+ function retry(fn, attempts) {
   let retries = 0;
   while (1 > 0) {
     try {
@@ -137,10 +149,36 @@ function retry(/* fn, attempts */) {
     }
   }
 }
-
-
-/* function retrys(fn, attempts) {
+ function retry(fn, retries) {
+  if (!retries) {
+    throw new Error();
+  }
+  return () => {
+    if (retries) {
+      try {
+        fn();
+      } catch (err) {
+        return retry(fn, (retries - 1));
+      }
+    }
+    throw new Error();
+  };
+}
+/*
+function retry(fn, attempts) {
   let count = attempts;
+  for (let i = 1; i <= count; i + 0) {
+    try {
+      return fn;
+    } catch (err) {
+      count -= 1;
+    }
+  }
+  throw new Error('ggg');
+}
+/*
+function retry(fn, attempts) {
+  let count = attempts + 1;
   do {
     try {
       return fn;
