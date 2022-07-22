@@ -381,8 +381,8 @@ function isBracketsBalanced(str) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 
@@ -398,8 +398,29 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+// eslint-disable-next-line consistent-return
+function getCommonDirectoryPath(pathes) {
+  let count;
+  let finalString = '';
+  for (let i = 0; i < pathes[0].length; i++) {
+    const char = pathes[0][i];
+    count = 1;
+    for (let j = 1; j < pathes.length; j++) {
+      if (pathes[j][i] === char) {
+        count++;
+      } else {
+        if (finalString.match(/[/].+[/]/) != null) {
+          return finalString.match(/[/].+[/]/)[0];
+        } if (finalString.length === 0) {
+          return '';
+        }
+        return finalString.match(/[/]/)[0];
+      }
+    }
+    if (count === pathes.length) {
+      finalString += char;
+    }
+  }
 }
 
 
@@ -421,8 +442,21 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const matrRes = [];
+  for (let i = 0; i < m1.length; i++) {
+    matrRes[i] = [];
+    for (let k = 0; k < m2[0].length; k++) {
+      for (let s = 0; s < m1.length; s++) {
+        let t = 0;
+        for (let j = 0; j < m2.length; j++) {
+          t += m1[i][j] * m2[j][k];
+          matrRes[i][k] = t;
+        }
+      }
+    }
+  }
+  return matrRes;
 }
 
 
@@ -456,8 +490,32 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  if (position[0][0] === position[0][1] && position[0][0] === position[0][2]
+    && position[0][0] !== undefined) return position[0][0];
+
+  if (position[1][0] === position[1][1] && position[1][0] === position[1][2]
+    && position[1][0] !== undefined) return position[1][0];
+
+  if (position[2][0] === position[2][1] && position[2][0] === position[2][2]
+    && position[2][0] !== undefined) return position[2][0];
+
+  if (position[0][0] === position[1][0] && position[0][0] === position[2][0]
+    && position[0][0] !== undefined) return position[0][0];
+
+  if (position[0][1] === position[1][1] && position[0][1] === position[2][1]
+    && position[0][1] !== undefined) return position[0][1];
+
+  if (position[0][2] === position[1][2] && position[0][2] === position[2][2]
+    && position[0][2] !== undefined) return position[0][2];
+
+  if (position[0][0] === position[1][1] && position[0][0] === position[2][2]
+    && position[0][0] !== undefined) return position[0][0];
+
+  if (position[0][2] === position[1][1] && position[0][2] === position[2][0]
+    && position[0][2] !== undefined) return position[0][2];
+
+  return undefined;
 }
 
 

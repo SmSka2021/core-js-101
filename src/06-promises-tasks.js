@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 /* ************************************************************************************************
  *                                                                                                *
  * Please read the following tutorial before implementing tasks:                                   *
@@ -101,16 +102,45 @@ function getFastestPromise(array) {
  *    });
  *
  */
-function chainPromises(array, action) {
-  return Promise.allSettled(array)
-    .then((res) => (res.reduce(action))).then((res) => (res)).catch(new Error('Wrong parameter is passed! Ask her again.'));
+function chainPromises(promises, action) {
+  // eslint-disable-next-line no-unused-vars
+  return new Promise((success, fail) => {
+    const successArr = new Array(promises.length);
+    const failArr = [];
+    if (promises.length === 0) success(successArr);
+    let pending = promises.length;
+    promises.forEach((promise, i) => {
+      promise.then((result) => {
+        successArr[i] = result;
+        pending -= 1;
+        if (pending === 0) success(successArr);
+      }, (error) => {
+        failArr[i] = error;
+      });
+    });
+  }).then((res) => (res.reduce(action)), (err) => err).then((res) => res, (err) => err);
+}
+
+/*
+async function chainPromises1(array, action) {
+  const arr = [];
+  for await (const a of array) {
+    a.then((res) => arr.push(res)).catch(new Error('Wrong parameter is passed! Ask her again.'));
+  }
+  const res = arr.reduce(action);
+  return res;
+}
+/* function chainPromises(array, action) {
+      return Promise.allSettled(array)
+         .then((res) => (res.reduce(action))).then((res)
+          => (res)).catch(new Error('Wrong parameter is passed! Ask her again.'));
 }
 // function chainPromises(array, action) {
 //   return Promise.allSettled(array)
 //  .then((res) =>  console.log(res)).catch(new Error('Wrong parameter is passed! Ask her again.'));
 // }
 // const promises = [Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)];
-// chainPromises(promises, (a, b) => a + b);
+// chainPromises(promises, (a, b) => a + b); */
 module.exports = {
   willYouMarryMe,
   processAllPromises,
