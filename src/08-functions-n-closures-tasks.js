@@ -149,15 +149,18 @@ function retry(fn, retries) {
  * @example
  *
  * const cosLogger = logger(Math.cos, console.log);
- * const result = cosLogger(Math.PI));     // -1
+ * const result = cosLogger(Math.PI);     // -1
  *
  * log from console.log:
  * cos(3.141592653589793) starts
  * cos(3.141592653589793) ends
  *
  */
-function logger(/* func, logFunc */) {
-  throw new Error('Not implemented');
+function logger(func, logFunc, ...args) {
+  logFunc(`${func.name}(${args}) starts`);
+  const returnValue = func(...args);
+  logFunc(`${func.name}(${returnValue}) ends`);
+  return returnValue;
 }
 
 

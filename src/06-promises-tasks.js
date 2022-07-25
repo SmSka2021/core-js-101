@@ -102,7 +102,30 @@ function getFastestPromise(array) {
  *    });
  *
  */
-function chainPromises(promises, action) {
+async function chainPromises(promises, action) {
+  const successArr = [];
+  const failArr = [];
+  await promises.map((prom) => prom.then((res) => successArr.push(res),
+    (er) => failArr.push(er)));
+  return successArr.reduce(action);
+}
+/* function chainPromises(promises, action) {
+  // eslint-disable-next-line no-unused-vars
+  return new Promise((success, fail) => {
+    const successArr = [];
+    const failArr = [];
+    if (promises.length === 0) success(successArr);
+    let pending = promises.length;
+    promises.forEach((promise, i) => {
+      promise.then((result) => {
+        successArr[i] = result;
+        pending -= 1;
+        if (pending === 0) success(successArr);
+      }, (error) => { failArr[i] = error; });
+    });
+  }).then((res) => (res.reduce(action)), (err) => err).then((res) => (res), (err) => err);
+}
+/* function chainPromises(promises, action) {
   // eslint-disable-next-line no-unused-vars
   return new Promise((success, fail) => {
     const successArr = new Array(promises.length);
@@ -120,12 +143,13 @@ function chainPromises(promises, action) {
     });
   }).then((res) => (res.reduce(action)), (err) => err).then((res) => res, (err) => err);
 }
-
+*/
 /*
-async function chainPromises1(array, action) {
+async function chainPromises(array, action) {
   const arr = [];
+  const arrErr = [];
   for await (const a of array) {
-    a.then((res) => arr.push(res)).catch(new Error('Wrong parameter is passed! Ask her again.'));
+    a.then((res) => arr.push(res)).catch((res) => arrErr.push(res));
   }
   const res = arr.reduce(action);
   return res;
