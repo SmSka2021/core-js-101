@@ -156,13 +156,22 @@ function retry(fn, retries) {
  * cos(3.141592653589793) ends
  *
  */
-function logger(func, logFunc, ...args) {
+function logger(target, descriptor) {
+  const newFn = function hh(args) {
+    descriptor(`${target.name}(${args}) starts`);
+    const returnValue = target(args);
+    descriptor(`${target.name}(${args}) ends`);
+    return returnValue;
+  };
+  return newFn;
+}
+/* function logger(func, logFunc, ...args) {
   logFunc(`${func.name}(${args}) starts`);
   const returnValue = func(...args);
   logFunc(`${func.name}(${returnValue}) ends`);
   return returnValue;
 }
-
+*/
 
 /**
  * Return the function with partial applied arguments
