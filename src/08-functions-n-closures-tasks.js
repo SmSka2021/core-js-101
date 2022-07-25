@@ -157,10 +157,11 @@ function retry(fn, retries) {
  *
  */
 function logger(target, descriptor) {
-  const newFn = function hh(args) {
-    descriptor(`${target.name}(${args}) starts`);
-    const returnValue = target(args);
-    descriptor(`${target.name}(${args}) ends`);
+  const newFn = function hh(...args) {
+    const ar = [...args];
+    descriptor(`${target.name}(${ar.map((el) => JSON.stringify(el))}) starts`);
+    const returnValue = target(...args);
+    descriptor(`${target.name}(${ar.map((el) => JSON.stringify(el))}) ends`);
     return returnValue;
   };
   return newFn;
